@@ -1,0 +1,917 @@
+{
+  "name": "AI Recruter System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 8
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -480,
+        16
+      ],
+      "id": "b5df0143-0567-4cca-9b6f-855dbc841c10",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{$json.id}}' in parents and name='JD'",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        -80
+      ],
+      "id": "b761a037-710e-40b7-b488-4e9533bdedb5",
+      "name": "Search JD folder in inside Resume Screening",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "fileFolder",
+        "queryString": "Resume Screening",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -256,
+        16
+      ],
+      "id": "311e2283-055f-435e-948d-090ad124e5dd",
+      "name": "Search Resume Screening folder in Drive",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$json.id}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        416,
+        -80
+      ],
+      "id": "a82d33e5-00e5-49c2-a37f-a78a629c779f",
+      "name": "Download JD",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{$json.id}}' in parents and name = 'JD.txt'",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        192,
+        -80
+      ],
+      "id": "6139b060-b97b-48d3-bfeb-33b493a857c6",
+      "name": "Search JD File",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        -80
+      ],
+      "id": "677d1dbb-b4a0-428a-837c-e3bef76e30d4",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{$json.id}}' in parents and name='Incoming'",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        112
+      ],
+      "id": "3f08bf87-070a-4b16-812e-f9ee25c189b3",
+      "name": "Search Incoming Folder",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "='{{$json.id}}' in parents and mimeType='application/pdf'",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        192,
+        112
+      ],
+      "id": "317bfa4e-9130-4c8b-b1e4-98b475df9ed8",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$json.id}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        416,
+        112
+      ],
+      "id": "13c10e56-d355-4b7f-a1e9-dd9d4cf14f26",
+      "name": "Download file",
+      "retryOnFail": true,
+      "credentials": {
+        "googleApi": {
+          "id": "KvjXOThKJcTAUGTC",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert ATS Resume Screening Engine.\n\nYour task is to compare ONE resume against ONE job description.\n\n====================================================\nJOB DESCRIPTION\n\n{{ $('Prepare JD').first().json.jobDescription }}\n\n==================================\n\nRESUME\n====================================================\n\n{{ $json.resumeText }}\n\n====================================================\n\nInstructions:\n\n1. Read the Job Description carefully.\n2. Read the Resume carefully.\n3. Compare ONLY information explicitly present in the resume with the job description.\n4. Do NOT assume any missing skills or experience.\n5. Do NOT hallucinate.\n6. Do NOT use prior knowledge about the candidate.\n7. Ignore formatting differences unless they reduce readability.\n\n====================================================\nSCORING RULES\n====================================================\n\nCalculate the ATS score using ONLY these weights.\n\nSkills Match: 0-40\nExperience: 0-25\nEducation: 0-15\nProjects: 0-10\nResume Quality: 0-10\n\nATS Score =\nskills +\nexperience +\neducation +\nprojects +\nresume_quality\n\nRules:\n\n- Every score MUST be an integer.\n- ATS Score MUST be an integer from 0 to 100.\n- Never output decimals.\n- The ATS Score MUST equal the sum of the five categories.\n- Do not assign arbitrary scores.\n\n====================================================\nDECISION RULES\n====================================================\n\nIf ATS Score >= 80\nDecision = SHORTLIST\n\nIf ATS Score is between 60 and 79\nDecision = CONSIDER\n\nIf ATS Score < 60\nDecision = REJECT\n\nNever use any other decision.\n\n====================================================\nOUTPUT RULES\n====================================================\n\nReturn ONLY valid JSON.\n\nDo NOT wrap the JSON in markdown.\n\nDo NOT explain your reasoning outside the JSON.\n\nThe response MUST exactly match this schema.\n\n{\n  \"candidate_name\": \"\",\n  \"score_breakdown\": {\n    \"skills\": 0,\n    \"experience\": 0,\n    \"education\": 0,\n    \"projects\": 0,\n    \"resume_quality\": 0\n  },\n  \"ats_score\": 0,\n  \"decision\": \"\",\n  \"matching_skills\": [],\n  \"missing_skills\": [],\n  \"strengths\": [],\n  \"weaknesses\": [],\n  \"summary\": \"\",\n  \"resume_improvements\": []\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1088,
+        112
+      ],
+      "id": "80b54979-af2f-4439-b420-479dbfa56eea",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        112
+      ],
+      "id": "77376a78-d82b-4b0b-a8ff-e8536123e340",
+      "name": "Extract from PDF"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6bc85d4c-a818-492e-b51d-361e6056f376",
+              "name": "jobDescription",
+              "value": "={{$json.data}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        -80
+      ],
+      "id": "ca742c6d-8e2c-4408-a02a-f49213dd6b21",
+      "name": "Prepare JD"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f3b4ef9c-0ba1-4ad3-ab68-5979f6fd5276",
+              "name": "resumeText",
+              "value": "={{$json.text}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        112
+      ],
+      "id": "21f062ed-4e18-4935-8048-83fb5380e07d",
+      "name": "Prepare Resume"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  let text = item.json.output;\n\n  if (!text) {\n    return { json: { ...item.json, error: \"No output text found\" } };\n  }\n\n  // 1. Clean markdown code blocks and wrapper quotes\n  text = text.trim();\n  text = text.replace(/^```json\\s*/i, \"\");\n  text = text.replace(/\\s*```$/i, \"\");\n  text = text.replace(/^\"?json\\s*/i, \"\");\n  text = text.trim();\n\n  // 2. Handle cases where the JSON itself is wrapped inside a string\n  if (text.startsWith('\"') && text.endsWith('\"')) {\n    try {\n      text = JSON.parse(text);\n    } catch (e) {\n      // If parsing fails, fall back to stripping the wrapping quotes manually\n      text = text.slice(1, -1);\n    }\n  }\n\n  // 3. Final Parse with a fallback in case the LLM cut off the response mid-sentence\n  let ats = {};\n  try {\n    ats = JSON.parse(text);\n  } catch (parseError) {\n    // Fallback: If it's cut off, try to manually patch missing closing brackets\n    try {\n      ats = JSON.parse(text + '}');\n    } catch (nestedError) {\n      try {\n        ats = JSON.parse(text + ']}');\n      } catch (finalError) {\n        // If it's completely unparseable, return the raw text so the workflow doesn't crash\n        return {\n          json: {\n            ...item.json,\n            parsing_failed: true,\n            raw_unparsed_output: text\n          }\n        };\n      }\n    }\n  }\n\n  return {\n    json: {\n      ...item.json,\n      ...ats\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        112
+      ],
+      "id": "a89af130-22f1-433b-b333-8930575319b4",
+      "name": "Parse AI Output",
+      "alwaysOutputData": false,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "ats_score",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        112
+      ],
+      "id": "5ade342b-e004-4e17-b6fe-6f1b611c7f1f",
+      "name": "Sort by ats_score"
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        112
+      ],
+      "id": "52bd3412-ba67-4a99-8a21-440f021b27bf",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0aa03b53-3768-47b0-8d87-c3fbe9316e1d",
+              "name": "rank",
+              "value": "={{\"Top\" + ($itemIndex + 1)}}",
+              "type": "string"
+            },
+            {
+              "id": "5c411fc2-4d85-4933-8101-02f5d0ceefb0",
+              "name": "candidate",
+              "value": "={{$json.candidate_name}}",
+              "type": "string"
+            },
+            {
+              "id": "471be565-416f-4408-abe7-72663550416b",
+              "name": "ats",
+              "value": "={{$json.ats_score}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3648,
+        -272
+      ],
+      "id": "9502b820-754c-4ccf-b698-849561013979",
+      "name": "Assign Rank"
+    },
+    {
+      "parameters": {
+        "jsCode": "let html = `\n<h2 style=\"color:#1565C0;\">🤖 AI Recruiter Recommendation</h2>\n\n<p><b>Recommended Candidates:</b></p>\n\n<ul>\n`;\n\nfor(const c of recommendation.interviewCandidates){\n    html += `<li>${c}</li>`;\n}\n\nhtml += `\n</ul>\n\n<p><b>Continue Sourcing:</b> ${\nrecommendation.continueSourcing ? \"YES\" : \"NO\"\n}</p>\n\n<p><b>Hiring Summary</b></p>\n\n<p>${recommendation.overallHiringSummary}</p>\n\n<h3>Common Skill Gaps</h3>\n\n<ul>\n`;\n\nfor(const gap of recommendation.commonSkillGaps){\n    html += `<li>${gap}</li>`;\n}\n\nhtml += `</ul>`;\n\nhtml += `<h3>Hiring Risks</h3><ul>`;\n\nfor(const risk of recommendation.hiringRisks){\n    html += `<li>${risk}</li>`;\n}\n\nhtml += `</ul>`;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3824,
+        -272
+      ],
+      "id": "50f81d61-05fb-4a9f-b9ff-8b97bc7ff427",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "fromEmail": "learn.dwarikanath15@gmail.com",
+        "toEmail": "prachiinteracts@gmail.com",
+        "subject": "ATS Resume Screening Report",
+        "html": "={{$json.html}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        3856,
+        112
+      ],
+      "id": "08e62da0-f548-4fc2-b7ff-5448d33febac",
+      "name": "Send an Email",
+      "webhookId": "9b377fe8-9ede-4cb9-a88b-87a46183e0f4",
+      "credentials": {
+        "smtp": {
+          "id": "7w3DKyOzZpwEYKD5",
+          "name": "SMTP account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an ATS Review Agent.\n\nYour job is NOT to score the resume from scratch.\n\nReview the previous ATS evaluation.\n\nCheck:\n\n• ATS score is justified.\n\n• Score breakdown adds correctly.\n\n• Decision follows:\n\n80-100 SHORTLIST\n\n60-79 CONSIDER\n\n0-59 REJECT\n\n• Missing skills are correct.\n\n• Matching skills are supported by the resume.\n\nIf everything is correct,\nreturn the same JSON.\n\nIf something is incorrect,\ncorrect it.\n\nReturn ONLY JSON.\n\nReview this ATS evaluation.\n\nIf the ATS score is consistent with the breakdown,\nreturn exactly the same JSON.\n\nIf not,\ncorrect it.\n\nPrevious Evaluation\n\n{{$json.output}}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1664,
+        112
+      ],
+      "id": "18883e95-c906-45f7-8646-a1262447ac41",
+      "name": "Reflection Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  let text = item.json.output;\n\n  // remove ```json\n  text = text.replace(/^```json\\s*/i, \"\");\n\n  // remove ```\n  text = text.replace(/\\s*```$/i, \"\");\n\n  // remove leading \"json\n  text = text.replace(/^\"?json\\s*/i, \"\");\n\n  // remove surrounding quotes if present\n  if (text.startsWith('\"') && text.endsWith('\"')) {\n      text = JSON.parse(text);\n  }\n\n  return {\n    json: JSON.parse(text)\n  };\n\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        112
+      ],
+      "id": "529343b2-5098-4d87-98bc-b1df98bed14b",
+      "name": "Parse Reflection Output"
+    },
+    {
+      "parameters": {
+        "content": "Reflection Agent:\n\nthe ATS score equals the sum of the score breakdown,\nthe decision follows the scoring rules,\nthere are no contradictions,\nthe JSON is valid."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1184,
+        -1296
+      ],
+      "typeVersion": 1,
+      "id": "c50238e7-06db-43dc-9e62-d123f56323c7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        320
+      ],
+      "id": "4283f099-2b6e-4bec-9449-fa683ed90b68",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "H3NgNplDtfgkqmNU",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an experienced Senior Technical Recruiter.\n\nYou have already received ATS evaluations for the shortlisted candidates.\n\nBelow is the shortlist.\n\n{{ JSON.stringify($json.data, null, 2) }}\n\nYour job is NOT to score resumes again.\n\nReview all candidates together.\n\nCompare them.\n\nRecommend:\n\n1. Final ranking.\n2. Which candidates should be interviewed.\n3. Should the recruiter continue sourcing? (true/false)\n4. Biggest hiring risks.\n5. Common skill gaps across shortlisted candidates.\n6. Interview topics for each candidate.\n7. Overall hiring summary.\n\nUse the candidate_name exactly as provided.\n\nReturn ONLY valid JSON.\n\n{\n  \"finalRanking\": [],\n  \"interviewCandidates\": [],\n  \"continueSourcing\": false,\n  \"overallHiringSummary\": \"\",\n  \"commonSkillGaps\": [],\n  \"hiringRisks\": [],\n  \"interviewFocus\": {}\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2880,
+        112
+      ],
+      "id": "03edda1f-d442-46ec-acf3-f62cbd499c9b",
+      "name": "Recruiter Recommendation Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        304
+      ],
+      "id": "8e15d402-6eae-4f8a-80f6-10475fdd7fbf",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "H3NgNplDtfgkqmNU",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2656,
+        96
+      ],
+      "id": "2da45549-3a55-4cdd-8985-2332bc4779ef",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  let text = item.json.output;\n\n  text = text.replace(/^```json\\s*/i, \"\");\n  text = text.replace(/\\s*```$/i, \"\");\n  text = text.replace(/^\"?json\\s*/i, \"\");\n\n  if (text.startsWith('\"') && text.endsWith('\"')) {\n      text = JSON.parse(text);\n  }\n\n  return {\n      json: JSON.parse(text)\n  };\n\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3232,
+        112
+      ],
+      "id": "bee45653-a9d9-490f-b034-7c42b24344ef",
+      "name": "Parse Recommendation"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get merged data\nconst merged = items.map(item => item.json);\n\n// Recommendation object\nconst recommendation = merged.find(item => item.finalRanking);\n\n// Candidate objects\nconst candidates = merged.filter(item => item.candidate_name);\n\nlet html = `\n<html>\n<head>\n<style>\nbody{\n    font-family:Arial,sans-serif;\n    margin:40px;\n    line-height:1.6;\n}\nh1,h2,h3{\n    color:#1565c0;\n}\ntable{\n    width:100%;\n    border-collapse:collapse;\n    margin-top:20px;\n}\nth,td{\n    border:1px solid #ddd;\n    padding:10px;\n}\nth{\n    background:#1976d2;\n    color:white;\n}\nul{\n    margin-top:5px;\n}\nhr{\n    margin:35px 0;\n}\n.good{\n    color:green;\n    font-weight:bold;\n}\n.bad{\n    color:red;\n    font-weight:bold;\n}\n</style>\n</head>\n\n<body>\n\n<h1>🤖 AI Recruiter Hiring Report</h1>\n\n<h2>Executive Recommendation</h2>\n\n<p>\n<b>Continue Sourcing:</b>\n${recommendation.continueSourcing ? \"YES\" : \"NO\"}\n</p>\n\n<p>\n<b>Overall Hiring Summary</b>\n</p>\n\n<p>${recommendation.overallHiringSummary}</p>\n\n<h2>Interview Candidates</h2>\n\n<ul>\n`;\n\n(recommendation.interviewCandidates || []).forEach(name=>{\n    html += `<li>${name}</li>`;\n});\n\nhtml += `</ul>\n\n<h2>Common Skill Gaps</h2>\n\n<ul>`;\n\n(recommendation.commonSkillGaps || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>\n\n<h2>Hiring Risks</h2>\n\n<ul>`;\n\n(recommendation.hiringRisks || []).forEach(risk=>{\n    html += `<li>${risk}</li>`;\n});\n\nhtml += `</ul>\n\n<h2>ATS Ranking</h2>\n\n<table>\n\n<tr>\n<th>Rank</th>\n<th>Candidate</th>\n<th>ATS Score</th>\n<th>Decision</th>\n</tr>\n`;\n\ncandidates.forEach((candidate,index)=>{\n\nhtml += `\n<tr>\n\n<td>${index+1}</td>\n\n<td>${candidate.candidate_name}</td>\n\n<td>${candidate.ats_score}</td>\n\n<td>${candidate.decision}</td>\n\n</tr>\n`;\n\n});\n\nhtml += `\n</table>\n`;\n\ncandidates.forEach(candidate=>{\n\nhtml += `\n\n<hr>\n\n<h2>${candidate.candidate_name}</h2>\n\n<p><b>ATS Score:</b> ${candidate.ats_score}</p>\n\n<p><b>Decision:</b> ${candidate.decision}</p>\n\n<h3>Summary</h3>\n\n<p>${candidate.summary || \"\"}</p>\n\n<h3>Matching Skills</h3>\n\n<ul>\n`;\n\n(candidate.matching_skills || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>\n\n<h3>Missing Skills</h3>\n\n<ul>\n`;\n\n(candidate.missing_skills || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>\n\n<h3>Strengths</h3>\n\n<ul>\n`;\n\n(candidate.strengths || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>\n\n<h3>Weaknesses</h3>\n\n<ul>\n`;\n\n(candidate.weaknesses || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>\n\n<h3>Resume Improvements</h3>\n\n<ul>\n`;\n\n(candidate.resume_improvements || []).forEach(skill=>{\n    html += `<li>${skill}</li>`;\n});\n\nhtml += `</ul>`;\n\n});\n\nhtml += `\n\n</body>\n</html>\n`;\n\nreturn [\n{\njson:{\nhtml\n}\n}\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3632,
+        112
+      ],
+      "id": "78fe0aad-bb8b-46c4-ac3f-1d9c44807fa8",
+      "name": "Generate HTML Report"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3168,
+        864
+      ],
+      "id": "840c1c53-6f57-456a-8453-d26b3bbfea9c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        320
+      ],
+      "id": "acf323ec-20f9-4147-a938-683adae83fcd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ds6gBOIZSQs0Wsrf",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Search JD folder in inside Resume Screening": [
+      {
+        "json": {
+          "id": "1anNmGxDxb6PH4V21R96EsUR5isOm7u3-",
+          "name": "JD"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search Resume Screening folder in Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Resume Screening folder in Drive": {
+      "main": [
+        [
+          {
+            "node": "Search Incoming Folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search JD folder in inside Resume Screening",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search JD folder in inside Resume Screening": {
+      "main": [
+        [
+          {
+            "node": "Search JD File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search JD File": {
+      "main": [
+        [
+          {
+            "node": "Download JD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download JD": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Prepare JD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Incoming Folder": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from PDF": {
+      "main": [
+        [
+          {
+            "node": "Prepare Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare JD": {
+      "main": [
+        []
+      ]
+    },
+    "Prepare Resume": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Output": {
+      "main": [
+        [
+          {
+            "node": "Reflection Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort by ats_score": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Assign Rank": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    },
+    "Reflection Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Reflection Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Reflection Output": {
+      "main": [
+        [
+          {
+            "node": "Sort by ats_score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Reflection Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Recruiter Recommendation Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recruiter Recommendation Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Recruiter Recommendation Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Recommendation": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Generate HTML Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate HTML Report": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bb36eeeb-25ad-4a1a-813a-9d8abfece4cd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ffb438bd03c66934fd1245710cb4447849d75662268f106a815c3e731d71a258"
+  },
+  "nodeGroups": [],
+  "id": "4LeA2AbxvQt1tR0U",
+  "tags": []
+}
