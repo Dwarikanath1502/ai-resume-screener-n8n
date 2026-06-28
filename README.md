@@ -148,12 +148,6 @@ Rather than relying on a single LLM response, multiple agents collaborate to pro
 
 ---
 
-## 📷 Workflow
-
-> Add your n8n workflow screenshot here.
-
----
-
 ## ⭐ Author
 
 **Dwarikanath**
